@@ -6,6 +6,9 @@ import Modal from '@mui/material/Modal';
 import { IconButton, CardMedia, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useState, useRef } from 'react';
+
+import axios from "axios";
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -26,22 +29,33 @@ export default function BasicModal() {
     const [postContent, SetContent] = useState("");
     const ImgRef = useRef();
 
-
-
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImF1dGgiOiJST0xFX01FTUJFUiIsImV4cCI6MTY2MDk3OTU1MX0.De9XJ-sV6Hn_96NSe-VrUZXr8Fq4CE7-EK40xv85s8k';
     const SaveData = (e) => {
         return e.target.name === "img" ? SetImg(URL.createObjectURL(e.target.files[0])) : SetContent(e.target.value);
     }
 
     const PostData = () => {
         const formData = new FormData();
-        formData.append('file', ImgRef.current.files[0] === "undefined" ? "img / default_img.jpeg" : ImgRef.current.files[0]);
+        formData.append('imgFile', ImgRef.current.files[0] === "undefined" ? "img / default_img.jpeg" : ImgRef.current.files[0]);
         formData.append('content', postContent);
-        console.log(formData.get('file'));
-        console.log(formData.get('content'));
+        formData.append('title', "test");
+
+        axios.post("http://3.38.212.192/api/posts", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        }).then(() => {
+            console.log("아몰랑");
+        })
     }
 
     return (

@@ -16,6 +16,12 @@ import PostModal from '../postmodal/PostModal';
 
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+import axios from "axios";
+
+
+
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -66,14 +72,31 @@ const Header = () => {
     //로그인 체크
     const [login, setLogin] = useState(false);
 
+    //유저 search
+    const [search, setSearch] = useState("");
+
+    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImF1dGgiOiJST0xFX01FTUJFUiIsImV4cCI6MTY2MDk3NzM0MH0.mQidGt3Jsos-a8LmTRx0UkmH_QmOVBDqkEroV27ZTyM';
+    const searchPost = (e) => {
+        // setSearch(e.target.value);
+        axios.post("http://3.38.212.192/api/users/search", { username: 'abc' }, {
+            headers: {
+                'Content-Type': 'application/json',
+                // Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        }).then(() => {
+            console.log("아몰랑");
+        })
+    }
+
     console.log(param);
     return (
         <Box sx={{ flexGrow: 1 }}>
-
             <AppBar position="static">
                 <Toolbar>
-
-
                     <Button variant="text" sx={{ color: 'white', width: '20', flexGrow: 1 }} onClick={() => navigate('/')}>
                         Instargram
                     </Button>
@@ -85,6 +108,7 @@ const Header = () => {
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
+                            onChange={searchPost}
                         />
                     </Search> : <div style={{ flexGrow: 4 }}></div>}
 
@@ -99,7 +123,7 @@ const Header = () => {
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                         <Button color="inherit">로그아웃</Button>
                         <Button color="inherit" onClick={() => navigate('/login')}>로그인/회원가입</Button>
-                        <>tt</>
+
                     </div>
 
                 </Toolbar>
