@@ -99,6 +99,7 @@ const Header = () => {
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                         <Button color="inherit">로그아웃</Button>
                         <Button color="inherit" onClick={() => navigate('/login')}>로그인/회원가입</Button>
+                        <>tt</>
                     </div>
 
                 </Toolbar>
