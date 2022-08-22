@@ -1,0 +1,48 @@
+.contentsWrap{
+  margin: 90px auto;
+  max-width: 340px;
+  max-height: 700px;
+  border: none;
+  padding: 20px;
+  text-align: center;
+}
+
+.loginWindow {
+  background-color: #fcfcfc;
+  padding: 10px auto;
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+}
+
+.loginvalues{
+  width: 210px;
+  margin: 0 auto;
+}
+
+.imgsize{
+  max-width: 200px;
+}
+
+.inlineToBlock {
+  display: block;
+}
+
+.unactivatedLoginColor {
+  background-color: #acd5e8;
+}
+
+.noneunderline {
+  text-decoration:none;
+}
+
+.haveAccount{
+  font-weight: 600;
+  color: #248ae3;
+  background-color: rgba(0,0,0,0);
+  border: transparent;
+}
+
+.goback{
+  background-color: rgba(0,0,0,0);
+  border: transparent;
+}
