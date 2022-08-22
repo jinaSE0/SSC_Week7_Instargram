@@ -38,6 +38,7 @@ export default function BasicModal() {
         return e.target.name === "img" ? SetImg(URL.createObjectURL(e.target.files[0])) : SetContent(e.target.value);
     }
 
+
     const PostData = () => {
         const formData = new FormData();
         formData.append('imgFile', ImgRef.current.files[0] === "undefined" ? "img / default_img.jpeg" : ImgRef.current.files[0]);
