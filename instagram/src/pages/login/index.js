@@ -34,7 +34,7 @@ const Main = (props) => {
 
       axios
         .post(
-          "/users/login",
+          "http://3.38.212.192/api/users/login",
           {
             username: enteredUsername,
             password: enteredPassword,
@@ -55,14 +55,17 @@ const Main = (props) => {
       const enteredUsername = usernameInput.current.value;
       const enteredPassword = passwordInput.current.value;
       const enteredpasswordConfirm = passwordConfirmInput.current.value;
+      console.log(enteredUsername);
+    console.log(enteredPassword);
+    console.log(enteredpasswordConfirm);
       //회원가입 버튼
       axios
         .post(
-          "/users/signup",
+          "http://3.38.212.192/api/users/signup",
           {
             username: enteredUsername,
             password: enteredPassword,
-            passwordComfirm: enteredpasswordConfirm,
+            passwordConfirm: enteredpasswordConfirm,
           },
           { "Content-Type": "application/json" }
         )
@@ -92,7 +95,7 @@ const Main = (props) => {
                   ref={usernameInput}
                 ></input>
                 <input
-                  type="text"
+                  type="password"
                   placeholder="비밀번호"
                   className="inlineToBlock"
                   name="password"
@@ -129,13 +132,13 @@ const Main = (props) => {
                 ></input>
                 <button className="goback">아이디 확인</button>
                 <input
-                  type="text"
+                  type="password"
                   placeholder="비밀번호"
                   className="inlineToBlock"
                   ref={passwordInput}
                 ></input>
                 <input
-                  type="text"
+                  type="password"
                   placeholder="비밀번호 확인"
                   className="inlineToBlock"
                   ref={passwordConfirmInput}
