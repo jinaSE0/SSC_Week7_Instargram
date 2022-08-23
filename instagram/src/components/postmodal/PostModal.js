@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import { IconButton, CardMedia, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useState, useRef } from 'react';
+import { getCookies } from '../../shared/Cookies'; 
 
 import axios from "axios";
 
@@ -33,7 +34,8 @@ export default function BasicModal() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImF1dGgiOiJST0xFX01FTUJFUiIsImV4cCI6MTY2MDk3OTU1MX0.De9XJ-sV6Hn_96NSe-VrUZXr8Fq4CE7-EK40xv85s8k';
+    const token = getCookies("accessToken");
+        console.log(token);
     const SaveData = (e) => {
         return e.target.name === "img" ? SetImg(URL.createObjectURL(e.target.files[0])) : SetContent(e.target.value);
     }
