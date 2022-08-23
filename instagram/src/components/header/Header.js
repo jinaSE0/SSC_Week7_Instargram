@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import axios from "axios";
-
+import SearchTable from "./SearchTable";
 
 
 
@@ -29,10 +29,11 @@ const Search = styled('div')(({ theme }) => ({
     '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
+    marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
+        marginLeft: theme.spacing(3),
         width: 'auto',
     },
 }));
@@ -55,11 +56,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
         },
     },
 }));
@@ -73,18 +71,20 @@ const Header = () => {
     const [login, setLogin] = useState(false);
 
     //유저 search
-    const [search, setSearch] = useState("");
+    const [searchList, setSearchList] = useState("");
+    const [isShow, setIsShow] = useState(false);
+
+    // const mouseClick = (e) => {
+    //     if (e.target !== e.currentTaget) {
+    //         setIsShow(false);
+    //     }
+    // }
 
     const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImF1dGgiOiJST0xFX01FTUJFUiIsImV4cCI6MTY2MDk3NzM0MH0.mQidGt3Jsos-a8LmTRx0UkmH_QmOVBDqkEroV27ZTyM';
     const searchPost = (e) => {
-        // setSearch(e.target.value);
-        axios.post("http://3.38.212.192/api/users/search", { username: 'abc' }, {
-            headers: {
-                'Content-Type': 'application/json',
-                // Authorization: `Bearer ${token}`,
-            }
-        }).then((response) => {
+        axios.get(`http://3.38.212.192/api/users/search?username=${e.target.value}`).then((response) => {
             console.log(response);
+            setSearchList(response.data.data)
         }).catch((error) => {
             console.log(error);
         }).then(() => {
@@ -92,7 +92,6 @@ const Header = () => {
         })
     }
 
-    console.log(param);
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -101,7 +100,8 @@ const Header = () => {
                         Instargram
                     </Button>
                     <div style={{ flexGrow: 4 }}></div>
-                    {true ? <Search sx={{ flexGrow: 3 }}>
+
+                    <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -109,8 +109,12 @@ const Header = () => {
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
                             onChange={searchPost}
+                        // onMouseDown={mouseClick}
                         />
-                    </Search> : <div style={{ flexGrow: 4 }}></div>}
+                        <SearchTable searchList={searchList === null ? [] : [...searchList]} isShow={searchList === null ? false : true} />
+                    </Search >
+
+
 
                     <div style={{ display: 'flex', flexGrow: 3, justifyContent: "center", gap: '30px' }}>
                         {/* {login ? <>
