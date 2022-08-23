@@ -56,8 +56,8 @@ const Main = (props) => {
       const enteredPassword = passwordInput.current.value;
       const enteredpasswordConfirm = passwordConfirmInput.current.value;
       console.log(enteredUsername);
-    console.log(enteredPassword);
-    console.log(enteredpasswordConfirm);
+      console.log(enteredPassword);
+      console.log(enteredpasswordConfirm);
       //회원가입 버튼
       axios
         .post(

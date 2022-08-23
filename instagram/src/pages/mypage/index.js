@@ -1,9 +1,11 @@
 import React from "react";
+import UserCard from "../../components/mypage/UserCard";
 
 const MyPage = (props) => {
     return (
         <>
-            <div>마이페이지 입니다.</div>
+            <UserCard />
+
         </>
     )
 }
