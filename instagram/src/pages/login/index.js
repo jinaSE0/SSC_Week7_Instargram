@@ -1,7 +1,10 @@
 import React from "react";
 import "../login/index.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import axios from "axios";
+import AuthContext from "../../store/auth-context";
+import { setCookies } from "../../shared/Cookies";
+import { useNavigate } from "react-router-dom";
 
 const Main = (props) => {
   const [login, setLogin] = useState(true);
@@ -10,25 +13,50 @@ const Main = (props) => {
   const passwordInput = useRef();
   const passwordConfirmInput = useRef();
 
+  const authCtx = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+
+  //useRef로 가져오고
+  //post요청 true이면 사용가능 메시지 받아오고 false 이면 존재하는 아이디 메시지띄우기
+  const idCheck = (e)=>{
+    const enteredUsername = usernameInput.current.value;
+    
+    axios
+        .post(
+          "http://3.38.212.192/api/users",
+          {
+            username: enteredUsername
+          },
+          {
+            "Content-Type": "application/json",
+          }
+        )
+        .then(function (response) {
+          const id = response.data.success
+            
+          if (id===false){
+            alert('사용불가한 ID입니다!')
+          } else{
+            alert('사용가능한 ID입니다!')
+          }
+            console.log(id);
+        })
+        .catch(function (error) {
+          alert("통신실패");
+          console.log(error);
+        });
+        
+
+        }
+
   const submitHandler = (event) => {
     event.preventDefault();
 
-    //login 상태 확인해서 삼항연산자로 하면될까?
-    // const enteredUsername = usernameInput.current.value;
-    // const enteredPassword = passwordInput.current.value;
-    // const enteredpasswordConfirm = passwordConfirmInput.current.value;
-
-    // console.log(enteredUsername);
-    // console.log(enteredPassword);
-    // console.log(enteredpasswordConfirm);
-
-    // 유효성검사어떻게할건데...
-    //axios 회원가입 /api/users/signup 로그인 /api/users/login
-
     // POST 요청 전송
     if (login === true) {
-      //로그인 버튼
-      //login 상태 확인해서 삼항연산자로 하면될까?
+    //로그인 버튼
       const enteredUsername = usernameInput.current.value;
       const enteredPassword = passwordInput.current.value;
 
@@ -43,22 +71,33 @@ const Main = (props) => {
             "Content-Type": "application/json",
           }
         )
-        .then(function (response) {
-          console.log(response);
+        .then(function (response) {       
+          const accessToken = response.data.data.token.accessToken
+          const refreshToken =response.data.data.token.refreshToken
+          const username = response.data.data.username
+          console.log(accessToken,refreshToken,username );
+
+          setCookies( "accessToken" , accessToken, { path: "/"})
+          setCookies( "refreshToken", refreshToken, { path:"/"})
+          setCookies( "username", username, { path: "/"})
+
+          navigate("/");
+
         })
         .catch(function (error) {
-          alert("나 로그인 버튼");
+          alert("나 로그인 버튼 에러");
           console.log(error);
         });
+
     } else {
-      //login 상태 확인해서 삼항연산자로 하면될까?
+      //회원가입 버튼
       const enteredUsername = usernameInput.current.value;
       const enteredPassword = passwordInput.current.value;
       const enteredpasswordConfirm = passwordConfirmInput.current.value;
       console.log(enteredUsername);
-    console.log(enteredPassword);
-    console.log(enteredpasswordConfirm);
-      //회원가입 버튼
+      console.log(enteredPassword);
+      console.log(enteredpasswordConfirm);
+      
       axios
         .post(
           "http://3.38.212.192/api/users/signup",
@@ -78,6 +117,7 @@ const Main = (props) => {
         });
     }
   };
+
 
   return (
     <div>
@@ -130,7 +170,7 @@ const Main = (props) => {
                   className="inlineToBlock"
                   ref={usernameInput}
                 ></input>
-                <button className="goback">아이디 확인</button>
+                <button className="goback" onClick={idCheck}>아이디 확인</button>
                 <input
                   type="password"
                   placeholder="비밀번호"
