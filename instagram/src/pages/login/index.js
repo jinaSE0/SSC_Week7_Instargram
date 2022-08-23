@@ -20,43 +20,43 @@ const Main = (props) => {
 
   //useRef로 가져오고
   //post요청 true이면 사용가능 메시지 받아오고 false 이면 존재하는 아이디 메시지띄우기
-  const idCheck = (e)=>{
+  const idCheck = (e) => {
     const enteredUsername = usernameInput.current.value;
-    
-    axios
-        .post(
-          "http://3.38.212.192/api/users",
-          {
-            username: enteredUsername
-          },
-          {
-            "Content-Type": "application/json",
-          }
-        )
-        .then(function (response) {
-          const id = response.data.success
-            
-          if (id===false){
-            alert('사용불가한 ID입니다!')
-          } else{
-            alert('사용가능한 ID입니다!')
-          }
-            console.log(id);
-        })
-        .catch(function (error) {
-          alert("통신실패");
-          console.log(error);
-        });
-        
 
+    axios
+      .post(
+        "http://3.38.212.192/api/users",
+        {
+          username: enteredUsername
+        },
+        {
+          "Content-Type": "application/json",
         }
+      )
+      .then(function (response) {
+        const id = response.data.success
+
+        if (id === false) {
+          alert('사용불가한 ID입니다!')
+        } else {
+          alert('사용가능한 ID입니다!')
+        }
+        console.log(id);
+      })
+      .catch(function (error) {
+        alert("통신실패");
+        console.log(error);
+      });
+
+
+  }
 
   const submitHandler = (event) => {
     event.preventDefault();
 
     // POST 요청 전송
     if (login === true) {
-    //로그인 버튼
+      //로그인 버튼
       const enteredUsername = usernameInput.current.value;
       const enteredPassword = passwordInput.current.value;
 
@@ -71,15 +71,15 @@ const Main = (props) => {
             "Content-Type": "application/json",
           }
         )
-        .then(function (response) {       
+        .then(function (response) {
           const accessToken = response.data.data.token.accessToken
-          const refreshToken =response.data.data.token.refreshToken
+          const refreshToken = response.data.data.token.refreshToken
           const username = response.data.data.username
-          console.log(accessToken,refreshToken,username );
+          console.log(accessToken, refreshToken, username);
 
-          setCookies( "accessToken" , accessToken, { path: "/"})
-          setCookies( "refreshToken", refreshToken, { path:"/"})
-          setCookies( "username", username, { path: "/"})
+          setCookies("accessToken", accessToken, { path: "/" })
+          setCookies("refreshToken", refreshToken, { path: "/" })
+          setCookies("username", username, { path: "/" })
 
           navigate("/");
 
@@ -97,7 +97,9 @@ const Main = (props) => {
       console.log(enteredUsername);
       console.log(enteredPassword);
       console.log(enteredpasswordConfirm);
-      
+
+      //회원가입 버튼
+
       axios
         .post(
           "http://3.38.212.192/api/users/signup",
