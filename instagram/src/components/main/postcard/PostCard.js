@@ -19,7 +19,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { useState } from 'react'
-
+import { getCookies } from '../../../shared/Cookies';
 import axios from "axios";
 
 const ExpandMore = styled((props) => {
@@ -39,7 +39,7 @@ export default function PostCard({ CardInfo }) {
 
     const [heart, setHeart] = useState(CardInfo.likeState);
 
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImF1dGgiOiJST0xFX01FTUJFUiIsImV4cCI6MTY2MTIzODUzOH0.GGq8Lc4vUjYL45dk-W6DhQoFdXbcZKrps7mBS43vlsE';
+    const token = getCookies('accessToken');
 
     const clickHeart = () => {
         //state변경으로 뷰 변경
@@ -65,12 +65,10 @@ export default function PostCard({ CardInfo }) {
     };
 
     return (
-        <Card sx={{ maxWidth: 500 }}>
+        <Card sx={{ width: 500 }}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        R
-                    </Avatar>
+                    <Avatar alt={CardInfo.username.slice(0, 1)} src={CardInfo.profileUrl === null ? "" : CardInfo.profileUrl} sx={{ background: 'gray' }} />
                 }
                 action={
                     <IconButton aria-label="settings" onClick={() => { alert("삭제하시겠습니까?") }}>
@@ -78,7 +76,7 @@ export default function PostCard({ CardInfo }) {
                     </IconButton>
                 }
                 title={CardInfo.username}
-                subheader={'게시 날짜'}
+                subheader={CardInfo.createdAt.slice(0, 10)}
             />
             <CardMedia
                 component="img"
@@ -88,10 +86,7 @@ export default function PostCard({ CardInfo }) {
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                    -content내용-<br />
-                    동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.
-                    무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세
-                    {/* {CardInfo.content} */}
+                    {CardInfo.content}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>

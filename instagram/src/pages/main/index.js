@@ -2,13 +2,14 @@ import React from "react";
 import PostCard from "../../components/main/postcard/PostCard";
 import { useState } from "react";
 import axios from "axios"
+import { getCookies } from "../../shared/Cookies";
 
 import { useEffect } from "react";
 const test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const Main = (props) => {
 
     const [postList, setPostList] = useState([]);
-    const access_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImF1dGgiOiJST0xFX01FTUJFUiIsImV4cCI6MTY2MTIzODUzOH0.GGq8Lc4vUjYL45dk-W6DhQoFdXbcZKrps7mBS43vlsE'
+    const access_token = getCookies('accessToken');
 
     const GetPostList = () => {
         axios.get("http://3.38.212.192/api/posts", {
