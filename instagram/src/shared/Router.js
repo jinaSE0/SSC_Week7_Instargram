@@ -9,7 +9,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 
 const Router = () => {
 
-    const accessToken = getCookies('refreshToken');
+    const accessToken = getCookies('accessToken');
     // const navigate = useNavigate();
 
     return (
@@ -25,6 +25,7 @@ const Router = () => {
 
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/mypage/:username" element={<MyPage />} />
+                {/* <Route exact path="/mypage/" element={<MyPage />} /> */}
 
             </Routes>
         </BrowserRouter>

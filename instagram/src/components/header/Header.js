@@ -82,8 +82,6 @@ const Header = () => {
         removeCookies('username');
     }
 
-
-
     const token = getCookies('accessToken');
     const refreshToken = getCookies('refreshToken');
 
