@@ -40,6 +40,50 @@ export default function PostCard({ CardInfo }) {
     const [heart, setHeart] = useState(CardInfo.likeState);
 
     const token = getCookies('accessToken');
+    const refreshToken = getCookies('refreshToken');
+    const username = getCookies('username');
+
+    const [comment, setComment] = useState('');
+
+    const postComment = () => {
+        //값 입력안되면 무시
+        if (comment === "") return;
+
+
+        axios.post(`http://3.38.212.192/api/posts/${CardInfo.postId}/comments`, { 'comment': comment }, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+                'Refresh-Token': refreshToken
+            }
+        }
+        ).then((response) => {
+            console.log(response);
+
+        }).catch((error) => {
+            console.log(error);
+
+        }).then();
+    }
+
+
+    const deletPost = () => {
+        axios.delete(`http://3.38.212.192/api/posts/${CardInfo.postId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'Refresh-Token': refreshToken
+            }
+        }
+        ).then((response) => {
+            console.log(response);
+
+        }).catch((error) => {
+            console.log(error);
+
+        }).then();
+    }
+
 
     const clickHeart = () => {
         //state변경으로 뷰 변경
@@ -71,9 +115,10 @@ export default function PostCard({ CardInfo }) {
                     <Avatar alt={CardInfo.username.slice(0, 1)} src={CardInfo.profileUrl === null ? "" : CardInfo.profileUrl} sx={{ background: 'gray' }} />
                 }
                 action={
-                    <IconButton aria-label="settings" onClick={() => { alert("삭제하시겠습니까?") }}>
-                        <DeleteIcon />
-                    </IconButton>
+                    CardInfo.username === username ?
+                        <IconButton aria-label="settings" onClick={deletPost}>
+                            <DeleteIcon />
+                        </IconButton> : null
                 }
                 title={CardInfo.username}
                 subheader={CardInfo.createdAt.slice(0, 10)}
@@ -114,9 +159,21 @@ export default function PostCard({ CardInfo }) {
                     <Typography variant='h6' component="h6">댓글</Typography>
                     {CardInfo.commentList.map((comment) => {
                         return (
-                            <Typography paragraph>
-                                {comment.username} {comment.comment}
-                            </Typography>
+                            <>
+                                <Typography paragraph>
+                                    {comment.username} {comment.comment}
+                                    {
+                                        comment.username === username ?
+                                            <IconButton aria-label="settings">
+                                                <DeleteIcon />
+                                            </IconButton> : null
+                                    }
+
+                                </Typography>
+
+
+                            </>
+
                         )
                     })}
                 </CardContent>
@@ -129,9 +186,10 @@ export default function PostCard({ CardInfo }) {
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="댓글 달기"
                     inputProps={{ 'aria-label': 'search google maps' }}
+                    onChange={(e) => { setComment(e.target.value) }}
                 />
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                    <EditIcon onClick={() => { alert("댓글을 게시하겠습니까?") }} />
+                    <EditIcon onClick={postComment} />
                 </IconButton>
             </Paper>
 

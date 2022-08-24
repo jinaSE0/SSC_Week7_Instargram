@@ -6,7 +6,7 @@ import Modal from '@mui/material/Modal';
 import { IconButton, CardMedia, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useState, useRef } from 'react';
-import { getCookies } from '../../shared/Cookies'; 
+import { getCookies } from '../../shared/Cookies';
 
 import axios from "axios";
 
@@ -35,7 +35,7 @@ export default function BasicModal() {
     const handleClose = () => setOpen(false);
 
     const token = getCookies("accessToken");
-        console.log(token);
+    console.log(token);
     const SaveData = (e) => {
         return e.target.name === "img" ? SetImg(URL.createObjectURL(e.target.files[0])) : SetContent(e.target.value);
     }
@@ -86,7 +86,8 @@ export default function BasicModal() {
                                 height="350"
 
                                 image={postImg}
-                                alt="green iguana"
+                                alt="img/default_img.png"
+
                             />
                             <Button sx={{ backgroundColor: '#8E2DE2' }} fullWidth variant="contained" component="label">
                                 사진 추가
