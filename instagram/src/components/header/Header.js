@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import axios from "axios";
 import SearchTable from "./SearchTable";
+import { getCookies } from "../../shared/Cookies";
 
 
 
@@ -80,9 +81,21 @@ const Header = () => {
     //     }
     // }
 
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImF1dGgiOiJST0xFX01FTUJFUiIsImV4cCI6MTY2MDk3NzM0MH0.mQidGt3Jsos-a8LmTRx0UkmH_QmOVBDqkEroV27ZTyM';
+
+
+    const token = getCookies('accessToken');
+    const refreshToken = getCookies('refreshToken');
+
     const searchPost = (e) => {
-        axios.get(`http://3.38.212.192/api/users/search?username=${e.target.value}`).then((response) => {
+
+        if (token === undefined || refreshToken === undefined) return;
+        axios.get(`http://3.38.212.192/api/users/search?username=${e.target.value}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'Refresh-Token': refreshToken
+            }
+        }).then((response) => {
             console.log(response);
             setSearchList(response.data.data)
         }).catch((error) => {
