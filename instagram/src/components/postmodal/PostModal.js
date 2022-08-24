@@ -54,6 +54,7 @@ export default function BasicModal() {
             }
         }).then((response) => {
             console.log(response);
+            setOpen(false);
         }).catch((error) => {
             console.log(error);
         }).then(() => {

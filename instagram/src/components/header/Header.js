@@ -19,7 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import axios from "axios";
 import SearchTable from "./SearchTable";
-import { getCookies } from "../../shared/Cookies";
+import { getCookies, removeCookies } from "../../shared/Cookies";
 
 
 
@@ -75,11 +75,12 @@ const Header = () => {
     const [searchList, setSearchList] = useState("");
     const [isShow, setIsShow] = useState(false);
 
-    // const mouseClick = (e) => {
-    //     if (e.target !== e.currentTaget) {
-    //         setIsShow(false);
-    //     }
-    // }
+    //로그아웃 기능
+    const Logout = () => {
+        removeCookies('accessToken');
+        removeCookies('refreshToken');
+        removeCookies('username');
+    }
 
 
 
@@ -113,7 +114,6 @@ const Header = () => {
                         Instargram
                     </Button>
                     <div style={{ flexGrow: 4 }}></div>
-
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
@@ -122,24 +122,18 @@ const Header = () => {
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
                             onChange={searchPost}
-                        // onMouseDown={mouseClick}
                         />
                         <SearchTable searchList={searchList === null ? [] : [...searchList]} isShow={searchList === null ? false : true} />
                     </Search >
 
-
-
                     <div style={{ display: 'flex', flexGrow: 3, justifyContent: "center", gap: '30px' }}>
-                        {/* {login ? <>
-                            <PostModal />
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            <Button color="inherit">로그아웃</Button>
-                        </> : <Button color="inherit" onClick={() => navigate('/login')}>로그인/회원가입</Button>} */}
-
-                        <PostModal />
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                        <Button color="inherit">로그아웃</Button>
-                        <Button color="inherit" onClick={() => navigate('/login')}>로그인/회원가입</Button>
+                        {token !== undefined ?
+                            <>
+                                <PostModal />
+                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Button color="inherit" onClick={Logout}>로그아웃</Button>
+                            </>
+                            : <Button color="inherit" onClick={() => navigate('/login')}>로그인/회원가입</Button>}
 
                     </div>
 
