@@ -89,7 +89,7 @@ const Header = () => {
     const searchPost = (e) => {
 
         if (token === undefined || refreshToken === undefined) return;
-        axios.get(`http://13.209.76.88/api/users/search?username=${e.target.value}`, {
+        axios.get(`http://13.125.71.197/api/users/search?username=${e.target.value}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,

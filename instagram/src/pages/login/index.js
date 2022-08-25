@@ -69,7 +69,7 @@ const Main = (props) => {
 
       axios
         .post(
-          "http://13.209.76.88/api/users/login",
+          "http://13.125.71.197/api/users/login",
           {
             username: enteredUsername,
             password: enteredPassword,
@@ -116,7 +116,7 @@ const Main = (props) => {
 
       axios
         .post(
-          "http://13.209.76.88/api/users/signup",
+          "http://13.125.71.197/api/users/signup",
           {
             username: enteredUsername,
             password: enteredPassword,

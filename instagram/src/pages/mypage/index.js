@@ -4,13 +4,13 @@ import PostList from "../../components/mypage/PostList";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { getCookies } from "../../shared/Cookies";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 const MyPage = (props) => {
 
     const param = useParams();
     const access_token = getCookies('accessToken');
-
-    console.log('asdfasfd', param);
+    const [userInfo, setUserInfo] = useState();
 
     useEffect(() => {
 
@@ -18,12 +18,13 @@ const MyPage = (props) => {
     }, [])
 
     const userData = () => {
-        axios.get(`http://3.38.212.192/api/detail/${param.username}`, {
+        axios.get(`http://13.125.71.197/api/detail/${param.username}`, {
             headers: {
                 'Authorization': `Bearer ${access_token}`
             }
         }).then((response) => {
             console.log(response);
+            setUserInfo(response.dadta.data);
 
         }).catch((error) => {
             console.log(error);
@@ -33,7 +34,7 @@ const MyPage = (props) => {
     }
     return (
         <>
-            <UserCard />
+            <UserCard userInfo={userInfo} />
             <PostList />
         </>
     )

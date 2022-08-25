@@ -53,7 +53,7 @@ export default function BasicModal() {
         formData.append('title', "test");
 
         console.log(ImgFile)
-        axios.post("http://13.209.76.88/api/posts", formData, {
+        axios.post("http://13.125.71.197/api/posts", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`,

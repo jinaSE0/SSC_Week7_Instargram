@@ -12,7 +12,7 @@ const Main = (props) => {
     const access_token = getCookies('accessToken');
 
     const GetPostList = () => {
-        axios.get("http://13.209.76.88/api/posts", {
+        axios.get("http://13.125.71.197/api/posts", {
             headers: {
                 'Authorization': `Bearer ${access_token}`
             }

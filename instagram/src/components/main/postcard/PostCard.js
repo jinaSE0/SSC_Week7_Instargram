@@ -21,6 +21,7 @@ import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { useState } from 'react'
 import { getCookies } from '../../../shared/Cookies';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -42,6 +43,7 @@ export default function PostCard({ CardInfo }) {
     const token = getCookies('accessToken');
     const refreshToken = getCookies('refreshToken');
     const username = getCookies('username');
+    const navigate = useNavigate();
 
     const [comment, setComment] = useState('');
 
@@ -50,7 +52,7 @@ export default function PostCard({ CardInfo }) {
         if (comment === "") return;
 
 
-        axios.post(`http://13.209.76.88/api/posts/${CardInfo.postId}/comments`, { 'comment': comment }, {
+        axios.post(`http://13.125.71.197/api/posts/${CardInfo.postId}/comments`, { 'comment': comment }, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
@@ -69,7 +71,7 @@ export default function PostCard({ CardInfo }) {
 
 
     const deletPost = () => {
-        axios.delete(`http://13.209.76.88/api/posts/${CardInfo.postId}`, {
+        axios.delete(`http://13.125.71.197/api/posts/${CardInfo.postId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -91,7 +93,7 @@ export default function PostCard({ CardInfo }) {
         //state변경으로 뷰 변경
         setHeart(!heart);
 
-        axios.post(`http://13.209.76.88/api/posts/like/${CardInfo.postId}`, {}, {
+        axios.post(`http://13.125.71.197/api/posts/like/${CardInfo.postId}`, {}, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`,
@@ -115,7 +117,7 @@ export default function PostCard({ CardInfo }) {
         <Card sx={{ width: 500 }}>
             <CardHeader
                 avatar={
-                    <Avatar alt={CardInfo.username.slice(0, 1)} src={CardInfo.profileUrl === null ? "" : CardInfo.profileUrl} sx={{ background: 'gray' }} />
+                    <Avatar onClick={() => { navigate(`/mypage/${CardInfo.username}`) }} alt={CardInfo.username.slice(0, 1)} src={CardInfo.profileUrl === null ? '' : CardInfo.profileUrl} sx={{ background: 'gray' }} />
                 }
                 action={
                     CardInfo.username === username ?

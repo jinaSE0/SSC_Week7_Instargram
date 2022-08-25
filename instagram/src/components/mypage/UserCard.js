@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import { Typography, Card, CardMedia, CardContent, Button, Grid, Container } from "@mui/material";
 import ProfileModal from "./ProfileModal";
 
-const UserCard = () => {
+const UserCard = ({ userInfo }) => {
     return (
         <>
             <Card sx={{ width: '500px', height: '200px', margin: 'auto', marginTop: '50px', display: 'flex', alignItems: 'center', padding: '20px', bgcolor: 'background.paper' }}>
@@ -17,7 +17,7 @@ const UserCard = () => {
                 <CardContent sx={{ flex: '1 0 auto' }}>
                     <div sx={{ display: 'flex' }}>
                         <Typography component="span" variant="h5">
-                            UserId
+                            {/* {userInfo.username} */}
                         </Typography>
                         <ProfileModal />
                     </div>
