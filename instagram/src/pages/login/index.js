@@ -4,7 +4,8 @@ import { useRef, useState, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../store/auth-context";
 import { getCookies, setCookies } from "../../shared/Cookies";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const Main = (props) => {
   const [login, setLogin] = useState(true);
@@ -15,7 +16,7 @@ const Main = (props) => {
 
   const authCtx = useContext(AuthContext);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   //useRef로 가져오고
   //post요청 true이면 사용가능 메시지 받아오고 false 이면 존재하는 아이디 메시지띄우기
@@ -93,14 +94,15 @@ const Main = (props) => {
           console.log(error);
           usernameInput.current.value = ""
           passwordInput.current.value = ""
-        }).then(
-          () => {
-            if (getCookies('accessToken' !== undefined)) {
-              console.log('나호출');
-              navigate('/');
-            }
-          }
-        );
+        });
+        // .then(
+        //   () => {
+        //     if (getCookies('accessToken' !== undefined)) {
+        //       console.log('나호출');
+        //       navigate('/');
+        //     }
+        //   }
+        // );
     } else {
       //회원가입 버튼
       const enteredUsername = usernameInput.current.value;
@@ -169,7 +171,12 @@ const Main = (props) => {
                     ></input>
                   </div>
 
+                  <Link to="/">
+
                   <button className="login-button">로그인</button>
+
+                  </Link>
+                  
 
                   <div className="separator">
                     <div className="line"></div>
