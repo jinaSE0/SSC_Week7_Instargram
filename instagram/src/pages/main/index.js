@@ -12,7 +12,7 @@ const Main = (props) => {
     const access_token = getCookies('accessToken');
 
     const GetPostList = () => {
-        axios.get("http://3.38.212.192/api/posts", {
+        axios.get("http://13.209.76.88/api/posts", {
             headers: {
                 'Authorization': `Bearer ${access_token}`
             }
@@ -33,8 +33,8 @@ const Main = (props) => {
 
     return (
         <div style={{ margin: 'auto', paddingTop: '20px', paddingBottom: '50px', backgroundColor: "#dcdcdc", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
-            {postList.map((card) => {
-                return <PostCard key={card} CardInfo={card} />
+            {postList.reverse().map((card, index) => {
+                return <PostCard key={index} CardInfo={card} />
             })}
         </div>
     );

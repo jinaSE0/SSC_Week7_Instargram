@@ -50,7 +50,7 @@ export default function PostCard({ CardInfo }) {
         if (comment === "") return;
 
 
-        axios.post(`http://3.38.212.192/api/posts/${CardInfo.postId}/comments`, { 'comment': comment }, {
+        axios.post(`http://13.209.76.88/api/posts/${CardInfo.postId}/comments`, { 'comment': comment }, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export default function PostCard({ CardInfo }) {
         }
         ).then((response) => {
             console.log(response);
-
+            window.location.reload();
 
         }).catch((error) => {
             console.log(error);
@@ -69,7 +69,7 @@ export default function PostCard({ CardInfo }) {
 
 
     const deletPost = () => {
-        axios.delete(`http://3.38.212.192/api/posts/${CardInfo.postId}`, {
+        axios.delete(`http://13.209.76.88/api/posts/${CardInfo.postId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -78,6 +78,7 @@ export default function PostCard({ CardInfo }) {
         }
         ).then((response) => {
             console.log(response);
+            window.location.reload();
 
         }).catch((error) => {
             console.log(error);
@@ -90,7 +91,7 @@ export default function PostCard({ CardInfo }) {
         //state변경으로 뷰 변경
         setHeart(!heart);
 
-        axios.post(`http://3.38.212.192/api/posts/like/${CardInfo.postId}`, {}, {
+        axios.post(`http://13.209.76.88/api/posts/like/${CardInfo.postId}`, {}, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`,
@@ -98,6 +99,7 @@ export default function PostCard({ CardInfo }) {
         }
         ).then((response) => {
             console.log(response);
+            window.location.reload();
 
         }).catch((error) => {
             console.log(error);
@@ -158,10 +160,10 @@ export default function PostCard({ CardInfo }) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography variant='h6' component="h6">댓글</Typography>
-                    {CardInfo.commentList.map((comment) => {
+                    {CardInfo.commentList.map((comment, index) => {
                         return (
                             <>
-                                <Typography paragraph>
+                                <Typography paragraph key={index}>
                                     {comment.username} {comment.comment}
                                     {
                                         comment.username === username ?
@@ -169,10 +171,7 @@ export default function PostCard({ CardInfo }) {
                                                 <DeleteIcon />
                                             </IconButton> : null
                                     }
-
                                 </Typography>
-
-
                             </>
 
                         )
@@ -195,9 +194,6 @@ export default function PostCard({ CardInfo }) {
             </Paper>
 
             {/* <TextField fullWidth id="fullWidth" placeholder='댓글 달기' /> */}
-
-
-
 
         </Card >
     );

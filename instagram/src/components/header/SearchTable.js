@@ -13,19 +13,18 @@ const SearchTable = ({ searchList, isShow }) => {
     return (
         <>
             {isShow && <Paper sx={{ width: '300px', maxHeight: '200px', bgcolor: "#dcdcdc" }}>
-                <List style={{ maxHeight: '200px', overflow: 'auto' }}>
+                <List style={{ maxHeight: '200px', overflow: 'auto', position: 'absolute' }}>
                     {searchList.map((user) => {
                         return (
-                            <ListItem>
+                            <ListItem sx={{ backgroundColor: 'gray', width: '300px' }}>
                                 <ListItemIcon>
                                     <AccountCircleIcon />
                                 </ListItemIcon>
-                                <Button fullWidth href={`mypage/${user.username}`}> {user.username}
+                                <Button fullWidth href={`mypage/${user.username}`} sx={{ color: 'white' }}> {user.username}
                                 </Button>
                             </ListItem>
                         );
                     })}
-
                 </List>
             </Paper>}
         </>

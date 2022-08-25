@@ -74,7 +74,7 @@ export default function ProfileModal() {
             >
                 <Box sx={style} style={{ position: 'relative' }} >
                     <Typography style={{ textAlign: "center", borderBottom: "1px solid" }} id="modal-modal-title" variant="h6" component="h2">
-                        게시물 만들기
+                        프로필 수정
                     </Typography>
                     <Button style={{ position: 'absolute', top: "3%", right: "4%" }} variant="text" onClick={PostData}>게시하기</Button>
                     <div style={{ height: "100%", display: "flex", justifyContent: "space-center", alignItems: "center" }}>

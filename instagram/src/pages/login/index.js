@@ -3,7 +3,7 @@ import "../login/index.css";
 import { useRef, useState, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../store/auth-context";
-import { setCookies } from "../../shared/Cookies";
+import { getCookies, setCookies } from "../../shared/Cookies";
 import { useNavigate } from "react-router-dom";
 
 const Main = (props) => {
@@ -21,9 +21,9 @@ const Main = (props) => {
   //post요청 true이면 사용가능 메시지 받아오고 false 이면 존재하는 아이디 메시지띄우기
   const idCheck = (e) => {
     const enteredUsername = usernameInput.current.value;
-    if (enteredUsername ==="" ){
+    if (enteredUsername === "") {
       alert("ID를 입력해주세요")
-      return 
+      return
     }
 
     axios
@@ -41,7 +41,7 @@ const Main = (props) => {
 
         if (id === false) {
           alert("사용불가한 ID입니다!");
-          usernameInput.current.value =""
+          usernameInput.current.value = ""
         } else {
           alert("사용가능한 ID입니다!");
         }
@@ -62,15 +62,14 @@ const Main = (props) => {
       const enteredUsername = usernameInput.current.value;
       const enteredPassword = passwordInput.current.value;
 
-      if(enteredUsername==="" ||enteredPassword===""){
+      if (enteredUsername === "" || enteredPassword === "") {
         alert("ID, PW를 입력해주세요")
         return false
       }
 
       axios
         .post(
-          // "http://3.38.212.192/api/users/login",
-          "http://3.38.212.192:8080/api/users/login",
+          "http://13.209.76.88/api/users/login",
           {
             username: enteredUsername,
             password: enteredPassword,
@@ -83,33 +82,41 @@ const Main = (props) => {
           const accessToken = response.data.data.token.accessToken;
           const refreshToken = response.data.data.token.refreshToken;
           const username = response.data.data.username;
-          
+
           setCookies("accessToken", accessToken, { path: "/" });
           setCookies("refreshToken", refreshToken, { path: "/" });
           setCookies("username", username, { path: "/" });
-
-          navigate("/");
+          window.location.reload();
         })
         .catch(function (error) {
           alert("나 로그인 버튼 에러");
           console.log(error);
-        });
+          usernameInput.current.value = ""
+          passwordInput.current.value = ""
+        }).then(
+          () => {
+            if (getCookies('accessToken' !== undefined)) {
+              console.log('나호출');
+              navigate('/');
+            }
+          }
+        );
     } else {
       //회원가입 버튼
       const enteredUsername = usernameInput.current.value;
       const enteredPassword = passwordInput.current.value;
       const enteredpasswordConfirm = passwordConfirmInput.current.value;
-      
-        if(enteredUsername===""||enteredPassword===""||enteredpasswordConfirm===""){
-            alert("값을 입력해주세요")
-            return
-        }
+
+      if (enteredUsername === "" || enteredPassword === "" || enteredpasswordConfirm === "") {
+        alert("값을 입력해주세요")
+        return
+      }
 
       //회원가입 버튼
 
       axios
         .post(
-          "http://3.38.212.192/api/users/signup",
+          "http://13.209.76.88/api/users/signup",
           {
             username: enteredUsername,
             password: enteredPassword,
@@ -122,7 +129,7 @@ const Main = (props) => {
           setLogin(true)
           usernameInput.current.value = ""
           passwordInput.current.value = ""
-          passwordConfirmInput.current.value =""
+          passwordConfirmInput.current.value = ""
         })
         .catch(function (error) {
           alert("나 회원가입 버튼");
@@ -135,10 +142,10 @@ const Main = (props) => {
     <div>
       <div className="container">
         {login ? (
-          <form onSubmit= {submitHandler}>
+          <form onSubmit={submitHandler}>
             <div className="box">
               <div className="loginvalues">
-                <div class="heading"></div>
+                <div className="heading"></div>
                 {/* <img src="img/logo_text.png" className="imgsize"></img> */}
 
                 <div className="login-form">
@@ -164,18 +171,18 @@ const Main = (props) => {
 
                   <button className="login-button">로그인</button>
 
-                  <div class="separator">
-                    <div class="line"></div>
+                  <div className="separator">
+                    <div className="line"></div>
                     <p>또는</p>
-                    <div class="line"></div>
+                    <div className="line"></div>
                   </div>
 
-                  <div class="other">
-                    <button class="fb-login-btn" type="button">
-                      <i class="fa fa-facebook-official fb-icon"></i>
-                      <span class="">Log in with Facebook</span>
+                  <div className="other">
+                    <button className="fb-login-btn" type="button">
+                      <i className="fa fa-facebook-official fb-icon"></i>
+                      <span className="">Log in with Facebook</span>
                     </button>
-                    <p class="forgot-password">Forgot password?</p>
+                    <p className="forgot-password">Forgot password?</p>
                   </div>
                 </div>
               </div>
@@ -201,7 +208,7 @@ const Main = (props) => {
           <form onSubmit={submitHandler}>
             <div className="container">
               <div className="box">
-                <div class="heading"></div>
+                <div className="heading"></div>
 
                 <div>
                   <div className="field">
@@ -245,9 +252,9 @@ const Main = (props) => {
                   <button
                     onClick={() => {
                       setLogin(true);
-                        usernameInput.current.value = "";
-                        passwordInput.current.value = "";
-                        passwordConfirmInput.current.value = "";
+                      usernameInput.current.value = "";
+                      passwordInput.current.value = "";
+                      passwordConfirmInput.current.value = "";
                     }}
                     className="signup"
                   >

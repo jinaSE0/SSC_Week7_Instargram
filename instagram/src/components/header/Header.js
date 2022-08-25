@@ -80,6 +80,7 @@ const Header = () => {
         removeCookies('accessToken');
         removeCookies('refreshToken');
         removeCookies('username');
+        window.location.reload();
     }
 
     const token = getCookies('accessToken');
@@ -88,7 +89,7 @@ const Header = () => {
     const searchPost = (e) => {
 
         if (token === undefined || refreshToken === undefined) return;
-        axios.get(`http://3.38.212.192/api/users/search?username=${e.target.value}`, {
+        axios.get(`http://13.209.76.88/api/users/search?username=${e.target.value}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
