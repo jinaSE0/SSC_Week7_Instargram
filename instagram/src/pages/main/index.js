@@ -33,7 +33,7 @@ const Main = (props) => {
 
     return (
         <div style={{ margin: 'auto', paddingTop: '20px', paddingBottom: '50px', backgroundColor: "#dcdcdc", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
-            {postList.reverse().map((card, index) => {
+            {postList.map((card, index) => {
                 return <PostCard key={index} CardInfo={card} />
             })}
         </div>

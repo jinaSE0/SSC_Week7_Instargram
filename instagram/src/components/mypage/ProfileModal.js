@@ -7,7 +7,7 @@ import { IconButton, CardMedia, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useState, useRef } from 'react';
 import { getCookies } from '../../shared/Cookies';
-
+import { useParams } from 'react-router-dom';
 import axios from "axios";
 
 const style = {
@@ -24,7 +24,8 @@ const style = {
     p: 4,
 };
 
-export default function ProfileModal() {
+export default function ProfileModal({ userId }) {
+    const param = useParams();
 
     const [postImg, SetImg] = useState("img/default_img.jpeg");
     const [postContent, SetContent] = useState("");
@@ -35,7 +36,7 @@ export default function ProfileModal() {
     const handleClose = () => setOpen(false);
 
     const token = getCookies("accessToken");
-    console.log(token);
+
     const SaveData = (e) => {
         return e.target.name === "img" ? SetImg(URL.createObjectURL(e.target.files[0])) : SetContent(e.target.value);
     }
@@ -43,24 +44,26 @@ export default function ProfileModal() {
 
     const PostData = () => {
         const formData = new FormData();
-        formData.append('imgFile', ImgRef.current.files[0] === "undefined" ? "img / default_img.jpeg" : ImgRef.current.files[0]);
-        formData.append('content', postContent);
-        formData.append('title', "test");
+        console.log(ImgRef.current.files[0]);
+        // formData.append('imgFile', ImgRef.current.files[0] === "undefined" ? "img/default_img.jpeg" : ImgRef.current.files[0]);
+        formData.append('imgFIle', ImgRef.current.files[0]);
+        formData.append('introduction', postContent);
 
-        // axios.post("http://3.38.212.192/api/posts", formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //         Authorization: `Bearer ${token}`,
-        //     }
-        // }).then((response) => {
-        //     console.log(response);
-        //     setOpen(false);
-        // }).catch((error) => {
-        //     console.log(error);
-        // }).then(() => {
-        //     console.log("아몰랑");
-        // })
+        axios.put(`http://13.125.71.197/api/users/edit/${userId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            console.log(response);
+            setOpen(false);
+        }).catch((error) => {
+            console.log(error);
+        }).then(() => {
+            console.log("아몰랑");
+        })
         setOpen(false);
+
     }
 
     return (
@@ -87,10 +90,8 @@ export default function ProfileModal() {
                                 alt="img/default_img.png"
 
                             />
-                            <Button sx={{ backgroundColor: '#8E2DE2' }} fullWidth variant="contained" component="label">
-                                사진 추가
-                                <input hidden accept="image/*" ref={ImgRef} multiple type="file" name="img" onChange={SaveData} />
-                            </Button>
+                            <input accept="image/*" ref={ImgRef} multiple type="file" name="img" onChange={SaveData} />
+
                         </div>
                         <div style={{ width: '40%' }}>
                             <TextField
