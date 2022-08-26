@@ -27,7 +27,7 @@ const style = {
 export default function ProfileModal({ userId }) {
     const param = useParams();
 
-    const [postImg, SetImg] = useState("img/default_img.jpeg");
+    const [postImg, SetImg] = useState("default_img.jpeg");
     const [postContent, SetContent] = useState("");
     const ImgRef = useRef();
 
@@ -87,7 +87,7 @@ export default function ProfileModal({ userId }) {
                                 height="350"
 
                                 image={postImg}
-                                alt="img/default_img.png"
+
 
                             />
                             <input accept="image/*" ref={ImgRef} multiple type="file" name="img" onChange={SaveData} />

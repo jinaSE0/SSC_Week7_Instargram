@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "../components/header/Header";
 import Main from "../pages/main";
@@ -9,21 +9,24 @@ import { useNavigate, Navigate } from "react-router-dom";
 
 const Router = () => {
 
-    const accessToken = getCookies('accessToken');
+    const [accessToken, setToken] = useState(getCookies('accessToken'));
     // const navigate = useNavigate();
+
+
+
 
     return (
         <BrowserRouter>
-            <Header />
+            <Header setToken={setToken} />
             <Routes>
                 {/* <Route path="/" element={<Main />} /> */}
                 {
-                    accessToken === undefined ?
+                    accessToken === null ?
                         <Route path="/" element={<Navigate replace to='/login' />} /> :
                         <Route path="/" element={<Main />} />
                 }
 
-                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/login" element={<Login setToken={setToken} />} />
                 <Route exact path="/mypage/:username" element={<MyPage />} />
                 {/* <Route exact path="/mypage/" element={<MyPage />} /> */}
 

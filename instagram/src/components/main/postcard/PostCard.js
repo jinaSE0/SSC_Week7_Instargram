@@ -88,6 +88,24 @@ export default function PostCard({ CardInfo }) {
         }).then();
     }
 
+    const deletComment = (idx) => {
+        console.log(idx);
+        axios.delete(`http://13.125.71.197/api/comments/${idx}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'Refresh-Token': refreshToken
+            }
+        }
+        ).then((response) => {
+            console.log(response);
+            window.location.reload();
+
+        }).catch((error) => {
+            console.log(error);
+        }).then();
+    }
+
 
     const clickHeart = () => {
         //state변경으로 뷰 변경
@@ -169,7 +187,7 @@ export default function PostCard({ CardInfo }) {
                                     {comment.username} {comment.comment}
                                     {
                                         comment.username === username ?
-                                            <IconButton aria-label="settings">
+                                            <IconButton aria-label="settings" onClick={() => { deletComment(comment.commentId) }} >
                                                 <DeleteIcon />
                                             </IconButton> : null
                                     }

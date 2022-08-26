@@ -7,7 +7,7 @@ import { getCookies, setCookies } from "../../shared/Cookies";
 import { useNavigate } from "react-router-dom";
 import { Link, Navigate } from "react-router-dom"
 
-const Main = (props) => {
+const Main = ({ setToken }) => {
   const [login, setLogin] = useState(true);
 
   const usernameInput = useRef();
@@ -87,6 +87,8 @@ const Main = (props) => {
           setCookies("accessToken", accessToken, { path: "/" });
           setCookies("refreshToken", refreshToken, { path: "/" });
           setCookies("username", username, { path: "/" });
+
+          setToken(accessToken);
           // window.location.reload();
           navigate('/')
         })

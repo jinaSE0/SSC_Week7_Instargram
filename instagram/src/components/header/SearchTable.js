@@ -2,13 +2,20 @@ import React, { useEffect } from "react";
 import { Paper, List, ListItem, ListItemText, Button, ListItemIcon, Typography } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SearchTable = ({ searchList, isShow }) => {
+const SearchTable = ({ searchList, isShow, setIsShow }) => {
 
     const [showBox, setShowBox] = useState(isShow)
     // console.log(searchList.length);
     // console.log(showBox);
     // const [userList, SetuserList] = useState(searchList);
+    const navigate = useNavigate();
+    const goMyPage = (username) => {
+        setIsShow(false);
+        navigate(`mypage/${username}`);
+        window.location.reload();
+    }
 
     return (
         <>
@@ -20,7 +27,10 @@ const SearchTable = ({ searchList, isShow }) => {
                                 <ListItemIcon>
                                     <AccountCircleIcon />
                                 </ListItemIcon>
-                                <Button fullWidth href={`mypage/${user.username}`} sx={{ color: 'white' }}> {user.username}
+                                <Button fullWidth onClick={(e) => {
+                                    e.target.value = ""
+                                    goMyPage(user.username)
+                                }} sx={{ color: 'white' }}> {user.username}
                                 </Button>
                             </ListItem>
                         );

@@ -63,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const Header = () => {
+const Header = ({ setToken }) => {
 
     const navigate = useNavigate();
     // const [param, SetParam] = useState(useParams());
@@ -80,7 +80,8 @@ const Header = () => {
         removeCookies('accessToken');
         removeCookies('refreshToken');
         removeCookies('username');
-        window.location.reload();
+        setToken(null);
+        navigate('/login');
     }
 
     const token = getCookies('accessToken');
@@ -89,6 +90,11 @@ const Header = () => {
     const searchPost = (e) => {
 
         if (token === undefined || refreshToken === undefined) return;
+        if (e.target.value !== "") {
+            setIsShow(true);
+        } else {
+            setIsShow(false);
+        }
         axios.get(`http://13.125.71.197/api/users/search?username=${e.target.value}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -122,7 +128,7 @@ const Header = () => {
                             inputProps={{ 'aria-label': 'search' }}
                             onChange={searchPost}
                         />
-                        <SearchTable searchList={searchList === null ? [] : [...searchList]} isShow={searchList === null ? false : true} />
+                        <SearchTable searchList={searchList === null ? [] : [...searchList]} isShow={isShow} setIsShow={setIsShow} />
                     </Search >
 
                     <div style={{ display: 'flex', flexGrow: 3, justifyContent: "center", gap: '30px' }}>
